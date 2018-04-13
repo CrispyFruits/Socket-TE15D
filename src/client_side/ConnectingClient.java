@@ -1,5 +1,7 @@
 package client_side;
 
+import javafx.scene.input.KeyEvent;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -67,6 +69,12 @@ public class ConnectingClient {
 		};
 
 		new Thread(output_r).start();
+	}
+
+	public void pressKey(String c){
+
+			to_server.println(c);
+
 
 	}
 }
