@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Server {
 
-	public static ArrayList<ServerClient> clients = new ArrayList<ServerClient>();
+	public static ArrayList<ServerClient> clients = new ArrayList<>();
 
 	public static int PORT = 12345;
 	ServerSocket server;
@@ -28,6 +28,7 @@ public class Server {
 				try {
 					ServerClient client = new ServerClient(server.accept());
 					clients.add(client);
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

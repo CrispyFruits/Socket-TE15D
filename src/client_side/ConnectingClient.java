@@ -19,12 +19,13 @@ public class ConnectingClient {
 	private Scanner sc;
 	private String name;
 	private Socket socket;
+	private  String time;
 
 	public ConnectingClient() {
 
-		sc = new Scanner(System.in);
+		/* sc = new Scanner(System.in);
 		System.out.print("Skriv in ditt namn: ");
-		name = sc.nextLine();
+		name = sc.nextLine(); */
 
 		System.out.println("CONNECTING TO SERVER " + HOST + " ON PORT " + PORT);
 
@@ -37,6 +38,7 @@ public class ConnectingClient {
 
 			to_server.println(name);
 
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -44,10 +46,13 @@ public class ConnectingClient {
 		Runnable input_r = () -> {
 
 			while (true) {
-
-				System.out.println("HAS LINE");
-				String input = sc.nextLine();
-				to_server.println(input);
+				try {
+					if(from_server.readLine().contains("TIME:")){
+                        setTimeText(from_server.readLine());
+                    }
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 			}
 
@@ -71,10 +76,17 @@ public class ConnectingClient {
 		new Thread(output_r).start();
 	}
 
-	public void pressKey(String c){
+	public void readyUp(String c){
 
 			to_server.println(c);
 
+	}
 
+	public String getTime() {
+		return time;
+	}
+
+	private void setTimeText(String time){
+		Game.timeText.setText(time);
 	}
 }
