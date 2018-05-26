@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,15 +19,22 @@ public class ServerClient {
 	private PrintStream to_client;
 	private BufferedReader from_client;
 	private String name;
+	private String hand;
 	private int timeSeconds = 5;
 	public ServerClient(Socket socket) {
 
+
+
 		try {
+			System.out.println("SIZE2: " + Server.clients.size());
+			if(Server.clients.size() == 2){
+				// REFUSE CONNECTION
+				socket.close();
+				return;
+			}
 
 			to_client = new PrintStream(socket.getOutputStream());
 			from_client = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			name = from_client.readLine();
-			to_client.println("WELCOME " + name);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -36,30 +44,28 @@ public class ServerClient {
 
 			while (true) {
 				try {
-					System.out.println("Waiting for line...");
 
 					String cmd = from_client.readLine();
 					System.out.println("Got line");
 					System.out.println(name + " WROTE: " + cmd);
 
 					if(cmd.equals("ready")){
-						startTimer();
-					}
-
-					else if (cmd.equals("count")) {
-						for (int i = 1; i <= 10; i++) {
-							to_client.println(i);
+						Server.playersReady += 1;
+						System.out.println(Server.playersReady);
+						if(Server.playersReady == 2){
+							Server.startCountDown();
 						}
 					}
 
-					else {
-						String msg = cmd;
-						Server.messageAllClients(name + ": " + msg);
+					if (cmd.contains("HAND:")){
+						hand = cmd.substring(5);
+						Server.setHands(hand);
 					}
 
+
 				} catch (IOException e) {
-					System.out.println(name + " DISCONNECTED");
-					name = null;
+					System.out.println("DISCONNECTED");
+					Server.clients.remove(this);
 					break;
 
 				}
@@ -71,9 +77,6 @@ public class ServerClient {
 
 	}
 
-	public void printMessage(String msg) {
-		to_client.println(msg);
-	}
 
 	public String getName() {
 		return this.name;
@@ -85,6 +88,7 @@ public class ServerClient {
 			@Override
 			public void run() {
 				for (int i = timeSeconds ; i >= 0 ; i--){
+					System.out.println("SENDING TIME TO CLIENT");
 					to_client.println("TIME:" + i);
 					try {
 						Thread.sleep(1000);
@@ -96,9 +100,21 @@ public class ServerClient {
 				to_client.println("timer_over");
 			}
 		};
-		new Thread(timer).start();
 		System.out.println("START TIMER");
+		new Thread(timer).start();
 
+	}
+
+	public void youWon(){
+		to_client.println("WON:");
+	}
+
+	public void youLost(){
+		to_client.println("LOST:");
+	}
+
+	public  void draw(){
+		to_client.println("DRAW:");
 	}
 
 }

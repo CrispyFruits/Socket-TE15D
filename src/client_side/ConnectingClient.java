@@ -36,35 +36,43 @@ public class ConnectingClient {
 			to_server = new PrintStream(socket.getOutputStream());
 			from_server = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-			to_server.println(name);
 
 
 		} catch (IOException e) {
+			System.out.println("FEL");
 			e.printStackTrace();
 		}
 
-		Runnable input_r = () -> {
 
-			while (true) {
-				try {
-					if(from_server.readLine().contains("TIME:")){
-                        setTimeText(from_server.readLine());
-                    }
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		};
-
-		new Thread(input_r).start();
 
 		Runnable output_r = () -> {
 
 			while (true) {
 				try {
-					System.out.println(from_server.readLine());
+					String output = from_server.readLine();
+					System.out.println("FROM SERVER: " + output);
+
+					if(output.contains("TIME:")){
+						setTimeText(output);
+					}
+
+					if (output.contains("TIME:0")){
+						Game.disableButtons();
+						to_server.println(Game.getCurrentHand());
+					}
+
+					if(output.equals("WON:")){
+						System.out.println("You won!");
+					}
+
+					if(output.equals("LOST:")){
+						System.out.println("You lost.");
+					}
+
+					if(output.equals("DRAW:")){
+						System.out.println("It's a draw.");
+					}
+
 				} catch (IOException e) {
 					System.out.println("LOST CONNECTION TO SERVER");
 					System.exit(0);
@@ -80,10 +88,6 @@ public class ConnectingClient {
 
 			to_server.println(c);
 
-	}
-
-	public String getTime() {
-		return time;
 	}
 
 	private void setTimeText(String time){

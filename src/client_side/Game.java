@@ -23,12 +23,16 @@ import java.io.File;
 
 public class Game extends Application{
     private Pane root = new Pane();
-    private Image rock = new Image("rock.jpg");
-    private Image paper = new Image("paper.jpg");
-    private Image scissors = new Image("scissors.jpg");
+    private static Image rock = new Image("rock.jpg");
+    private static Image paper = new Image("paper.jpg");
+    private static Image scissors = new Image("scissors.jpg");
 
-    private Hand currentHand = new Hand();
+    private static Hand currentHand = new Hand();
     private Hand opponentHand = new Hand();
+
+    private static Button btn1;
+    private static Button btn2;
+    private static Button btn3;
 
     String ready = "";
     public static Text timeText;
@@ -52,9 +56,9 @@ public class Game extends Application{
         opponentHand.setTranslateY(50);
         root.getChildren().add(opponentHand);
 
-        Button btn1 = new Button("Rock");
-        Button btn2 = new Button("Paper");
-        Button btn3 = new Button("Scissors");
+        btn1 = new Button("Rock");
+        btn2 = new Button("Paper");
+        btn3 = new Button("Scissors");
         Button readyBtn = new Button("Ready!");
 
         timeText = new Text("Time:");
@@ -98,15 +102,32 @@ public class Game extends Application{
 
 
 
-
     }
 
     private void updateImageHand(Hand currentHand) {
         root.getChildren().add(currentHand);
     }
 
-  /*  private void setTimeText(String time){
-        timeText.setText(time);
-    }*/
+    public static String getCurrentHand() {
+        if (currentHand.getTypeOfHandImage().equals(rock)){
+            return "HAND:rock";
+        }
 
+        else if (currentHand.getTypeOfHandImage().equals(paper)){
+            return "HAND:paper";
+        }
+
+        else if (currentHand.getTypeOfHandImage().equals(scissors)){
+            return "HAND:scissors";
+        }
+        else {
+            return "";
+        }
+    }
+
+    public static void disableButtons(){
+        btn1.setDisable(true);
+        btn2.setDisable(true);
+        btn3.setDisable(true);
+    }
 }

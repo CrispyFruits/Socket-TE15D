@@ -7,7 +7,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Hand extends Rectangle{
-
+    private Image typeOfHandImage;
     public Hand(){
         this.setFill(Color.RED);
         this.setHeight(150);
@@ -16,6 +16,11 @@ public class Hand extends Rectangle{
     }
 
     public void setHandImage(Image typeOfHand){
-        this.setFill(new ImagePattern(typeOfHand));
+        this.typeOfHandImage = typeOfHand;
+        this.setFill(new ImagePattern(typeOfHandImage));
+    }
+
+    public Image getTypeOfHandImage() {
+        return typeOfHandImage;
     }
 }
