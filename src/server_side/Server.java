@@ -59,7 +59,7 @@ public class Server {
 	}
 
 	public static void setHands(String hand) {
-		for (ServerClient sc: clients){
+
 			 if( firstHand == null) {
 				 firstHand = hand;
 				 System.out.println("first hand: " + firstHand);
@@ -71,10 +71,17 @@ public class Server {
 
 			 if(firstHand != null && secondHand != null) {
 				compareHands(firstHand, secondHand);
+				 System.out.println("DEBUG");
 			 }
-		}
+
+
+		sendOpponentHand(firstHand, secondHand);
 	}
 
+	private static void sendOpponentHand(String firstHand, String secondHand){
+		clients.get(0).sendOpponent("OPHAND:"+ secondHand);
+		clients.get(1).sendOpponent("OPHAND:"+ firstHand);
+	}
 
 	private static void compareHands(String firstHand, String secondHand) {
 		if (firstHand.equals("rock") && secondHand.equals("paper")) {

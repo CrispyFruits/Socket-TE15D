@@ -28,7 +28,7 @@ public class Game extends Application{
     private static Image scissors = new Image("scissors.jpg");
 
     private static Hand currentHand = new Hand();
-    private Hand opponentHand = new Hand();
+    private static Hand opponentHand = new Hand();
 
     private static Button btn1;
     private static Button btn2;
@@ -44,6 +44,7 @@ public class Game extends Application{
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         currentHand.setScaleY(-1);
@@ -129,5 +130,29 @@ public class Game extends Application{
         btn1.setDisable(true);
         btn2.setDisable(true);
         btn3.setDisable(true);
+    }
+
+    public static void setOpponentHand(String hand){
+        if (hand.equals("rock")){
+            opponentHand.setHandImage(rock);
+        }
+        else if (hand.equals("paper")){
+            opponentHand.setHandImage(paper);
+        }
+        else{
+            opponentHand.setHandImage(scissors);
+        }
+    }
+
+    public static void winAlert(){
+
+    }
+
+    public static void loseAlert(){
+
+    }
+
+    public static void drawAlert(){
+
     }
 }

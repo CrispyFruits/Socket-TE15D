@@ -117,4 +117,7 @@ public class ServerClient {
 		to_client.println("DRAW:");
 	}
 
+	public void sendOpponent(String opponentHand){
+		to_client.println(opponentHand);
+	}
 }

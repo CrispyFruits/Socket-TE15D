@@ -73,6 +73,10 @@ public class ConnectingClient {
 						System.out.println("It's a draw.");
 					}
 
+					if (output.contains("OPHAND:")){
+                        Game.setOpponentHand(output.substring(7));
+                    }
+
 				} catch (IOException e) {
 					System.out.println("LOST CONNECTION TO SERVER");
 					System.exit(0);
@@ -89,6 +93,8 @@ public class ConnectingClient {
 			to_server.println(c);
 
 	}
+
+
 
 	private void setTimeText(String time){
 		Game.timeText.setText(time);
