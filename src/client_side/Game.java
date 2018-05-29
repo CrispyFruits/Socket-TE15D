@@ -4,9 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -20,6 +18,7 @@ import server_side.ServerClient;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.Optional;
 
 public class Game extends Application{
     private Pane root = new Pane();
@@ -34,13 +33,16 @@ public class Game extends Application{
     private static Button btn2;
     private static Button btn3;
 
+
     String ready = "";
     public static Text timeText;
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         ConnectingClient client = new ConnectingClient();
+
+
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
@@ -103,6 +105,8 @@ public class Game extends Application{
 
 
 
+
+
     }
 
     private void updateImageHand(Hand currentHand) {
@@ -144,15 +148,5 @@ public class Game extends Application{
         }
     }
 
-    public static void winAlert(){
 
-    }
-
-    public static void loseAlert(){
-
-    }
-
-    public static void drawAlert(){
-
-    }
 }

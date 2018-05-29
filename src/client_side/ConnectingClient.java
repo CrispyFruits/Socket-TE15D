@@ -63,14 +63,17 @@ public class ConnectingClient {
 
 					if(output.equals("WON:")){
 						System.out.println("You won!");
+
 					}
 
 					if(output.equals("LOST:")){
 						System.out.println("You lost.");
+
 					}
 
 					if(output.equals("DRAW:")){
 						System.out.println("It's a draw.");
+
 					}
 
 					if (output.contains("OPHAND:")){
